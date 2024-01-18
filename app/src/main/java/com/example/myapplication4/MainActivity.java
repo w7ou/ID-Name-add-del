@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -45,20 +46,34 @@ public class MainActivity extends AppCompatActivity {
 
     private class ButtonHandler implements View.OnClickListener{
         public void onClick(View view){
-            builder.setTitle("Confirm Message");
-            builder.setMessage("are you sure to add a person ?");
 
-            DelButtonHandler Dehandler = new DelButtonHandler();
-            builder.setPositiveButton("ok",Dehandler);
-            builder.setNegativeButton("cancel",null);
-            builder.show();
+                builder.setTitle("Confirm Message");
+                builder.setMessage("are you sure to add a person ?");
+
+                DelButtonHandler Dehandler = new DelButtonHandler();
+                builder.setPositiveButton("ok", Dehandler);
+                builder.setNegativeButton("cancel", null);
+                builder.show();
+
+
         }
         private class DelButtonHandler implements DialogInterface.OnClickListener {
             public void onClick(DialogInterface dialog,int which){
-                String name = name_editText.getText().toString();
-                String number = id_editText.getText().toString();
-                dataSource.add("姓名: " + name + "  學號: " + number);
-                arrayAdapter.notifyDataSetChanged();
+                if(name_editText.getText().toString().equals("")) {
+                    Toast toast = Toast.makeText(MainActivity.this , "姓名欄不能空白", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                else if (id_editText.getText().toString().equals("")) {
+                    Toast toast = Toast.makeText(MainActivity.this , "學號欄不能空白", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                else{
+                    String name = name_editText.getText().toString();
+                    String number = id_editText.getText().toString();
+                    dataSource.add("姓名: " + name + "  學號: " + number);
+                    arrayAdapter.notifyDataSetChanged();
+                }
+
             }
         }
     }
